@@ -8,7 +8,8 @@ export default function useSearch () {
 
     useEffect(() => {
         if (isFirstInput.current) {
-            isFirstInput.current = search === ""
+            // isFirstInput.current = search === ""
+            isFirstInput.current = false
             return
         }
         if (search === "") {

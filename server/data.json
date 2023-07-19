@@ -1,0 +1,43 @@
+[{
+  "name": "John",
+  "email": "john@hotmail.com",
+  "list": [
+    {
+      "name": "Harry Potter",
+      "plot": "adasdasd",
+      "img": "asdasdasd",
+      "id": "1",
+      "cast": ["asdasd", "asdasd", "asdasd"]
+    }
+  ],
+  "id": "1"
+},  
+{
+  "name": "Valentina",
+  "email": "vale@hotmail.com",
+  "list": [
+    {
+      "name": "Harry Potter2",
+      "plot": "adasdasd",
+      "img": "asdasdasd",
+      "id": "1",
+      "cast": ["asdasd", "asdasd", "asdasd"]
+    }
+  ],
+  "id": "2"
+},
+{
+  "name": "Mariana",
+  "email": "nana@hotmail.com",
+  "list": [
+    {
+      "name": "Harry Potter3",
+      "plot": "adasdasd",
+      "img": "asdasdasd",
+      "id": "1",
+      "cast": ["asdasd", "asdasd", "asdasd"]
+    }
+  ],
+  "id": "3"
+}
+]

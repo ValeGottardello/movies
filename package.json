@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.7.17",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -10,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.0",
     "formik": "^2.4.2",
+    "graphql": "^16.7.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",

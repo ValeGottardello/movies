@@ -2,7 +2,6 @@ import './App.css';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 
-import LoginPage from './pages/LoginPage';
 import Home from './pages/Home';
 import MovieDetailPage from './pages/MovieDetailPage';
 import MyList from './pages/MyList';
@@ -13,6 +12,7 @@ import useSearch from './hooks/useSearch';
 import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 
+
 function App() {
 
   const [ sort, setSort ] = useState(false)
@@ -21,7 +21,7 @@ function App() {
   const [user, setUser] = useState('')
 
   return (
-    <div className='wrapper flex flex-col bg-blue-50 min-h-[100vh]'>
+    <div className='wrapper flex flex-col min-h-[100vh] bg-slate-800 justify-between' >
       <NavBar user={user} setUser={setUser}/>
       <div className='min-h-[70vh]'>
         <Routes>      
@@ -36,7 +36,6 @@ function App() {
           sort={sort}
           setSort={setSort}
           />} />
-          <Route path="/login" element={<LoginPage onLog={setUser} />} />
           <Route path="/movies/:movieId" element={<MovieDetailPage 
             loading={loading}
             setLoading={setLoading}

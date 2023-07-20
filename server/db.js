@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = "mongodb+srv://valengottardello:Fagotti02.@clustermovies.voyckpb.mongodb.net/movies?retryWrites=true&w=majority"
+const MONGODB_URI = process.env.REACT_APP_MONGODB_URI
 
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
@@ -8,5 +8,5 @@ mongoose.connect(MONGODB_URI, {
 })
 .then(() => console.log('MongoDB connected'))
 .catch((error) => console.log(error.message));
-    
+
 

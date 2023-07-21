@@ -1,40 +1,34 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { AiOutlineHeart } from "react-icons/ai";
-import { useUser } from "../graphql/custom-hooks";
+import { BsFillHeartFill } from "react-icons/bs";
+import { useAddMovie, useRemoveMovie } from "../graphql/custom-hooks";
 
-export default function ModalRemoveList ({ user, movie, setMessage }) {
+
+export default function ModalRemoveList ({ user, movie, onSet, movie_id, added }) {
     
     const [show, setShow] = useState(false)
-    const [ createUser ] = useUser();
+    const handleRemoveMovie = useRemoveMovie()
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-
-    const handleAddorRemove = async () => {
+console.log(added)
+    const handleRemove = async () => {
         try {
-            // const result = await createUser({
-            //   variables: {
-            //     movie: {
-            //         cast: [],
-            //         img: movie.poster,
-            //         name: null,
-            //         plot: null
-            //       },
-            //     userId: user._id
-            //   }
-            // })
-            
+            const removedMovie = await handleRemoveMovie(added._id)
+
+            if (added.ombdId === removedMovie.ombdId) {
+                onSet({})
+            }
         } catch (e) {
-          console.error("Error:", e);
+            console.error('Error:', e);
         } finally {
-            handleClose(); 
-        }  
+            handleClose();
+        }   
     }
     return (
         <>
-        <Button onClick={handleShow} className="bg-transparent border  hover:border-red-600 ">
-            <AiOutlineHeart className="hover:text-transparent border border-slate-900 text-2xl text-red-600 "/>
+        <Button onClick={handleShow} className="bg-transparent border  hover:border-black-600 ">
+            <BsFillHeartFill className="text-red-600 text-2xl hover:text-red-200"/>
         </Button>
         <Modal 
             show={show} 
@@ -53,7 +47,7 @@ export default function ModalRemoveList ({ user, movie, setMessage }) {
                 <Button 
                     className="bg-yellow-600 border border-l-yellow-800"
                     variant="secondary" 
-                    onClick={handleAddorRemove}>
+                    onClick={handleRemove}>
                     Yes
                 </Button>
             </Modal.Footer>

@@ -23,8 +23,10 @@ async function addMovie(movie, id) {
             userId: user._id
           }
         })
+        console.log(result)
         if (result && result.data && result.data.addUser) {
-            setUser(result.data.addUser);
+            // setUser(result.data.addUser);
+            
           }
     } catch (e) {
       console.error("Error:", e);
@@ -32,8 +34,39 @@ async function addMovie(movie, id) {
         handleClose(); 
     } 
 }
+function getPayload(token) {
+  return JSON.parse(window.atob(token.split(".")[1]))
+}
+
+function getToken() {
+  const token = localStorage.getItem("token")
+
+  if (token === null) return null
+
+  const payload = getPayload(token)
+
+  if (payload.exp < Date.now() / 1000) {
+    localStorage.removeItem(token)
+    return null
+  }
+
+  return token
+}
+
+function getUser() {
+  const token = getToken()
+  
+  if (token) {
+    let user = getPayload(token)  
+    return user
+  } else {
+    return null
+  }
+}
 
 export {
     addMovie,
-    checkPasswords
+    checkPasswords,
+    getUser
 }
+

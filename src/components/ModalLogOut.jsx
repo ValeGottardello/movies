@@ -4,8 +4,9 @@ export default function ModalLogOut ({ handleClose, show, setUser }) {
     const navigate = useNavigate()
 
     const handleLogOut = () => {
+        localStorage.removeItem("token")
         handleClose()
-        setUser('')
+        setUser(null)
         navigate('/')
     }
     

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useOldUser } from "../graphql/custom-hooks";
+import { getUser } from "../helpers/helpers";
 
 export default function ModalLogIn ({ handleClose, show, setUser, user }) {
 
@@ -23,12 +24,9 @@ export default function ModalLogIn ({ handleClose, show, setUser, user }) {
                     password
                 }
             })
-            console.log(result, result.data)
 
-            
             if (result && result.data) {
-                setUser(result.data.login);
-                console.log(result.data.login);
+                setUser(result.data.findUser);
                 navigate("/movies/list");
               }
         } catch (e) {

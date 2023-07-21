@@ -6,6 +6,10 @@ const movieSchema = new mongoose.Schema({
         ref: 'User', 
         required: true,
     },
+    omdbId: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,

@@ -4,7 +4,7 @@ import User from './models/User.js';
 import Movie from './models/Movie.js';
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
-import createUser from './helpers/signup.js';
+import { createUser,createJsonWebToken } from './helpers/signup.js';
 
 const typeDefinitions = gql`
     type User {
@@ -17,6 +17,7 @@ const typeDefinitions = gql`
     type Movie {
         _id: ID!
         userId: ID!
+        omdbId: String!
         name: String!
         plot: String!
         img: String!
@@ -27,18 +28,19 @@ const typeDefinitions = gql`
         plot: String
         img: String
         cast: [String]
+        omdbId: String!
     }      
     type Query {
         userCount: Int!
         allUsers: [User]!
-        findUser(id: ID!): User
+        findById(id: ID!): User
+        findUser(email: String!, password: String!): User
         allMovies: [Movie]!
     }
     type Mutation {
         addUser(name: String!, email: String!, password: String! ): User
         addMovie(movie: MovieInput!, userId: ID!): Movie
-        editMovie(movieID: ID!, newMovie: MovieInput!): Movie
-        login(email: String!, password: String!): User
+        removeMovie(movieID: ID!): Movie
     }
 `;
 
@@ -49,9 +51,33 @@ const resolvers = {
       const users = await User.find({}).exec();
       return users;
     },
-    findUser: (root, args) => {
+    findById: (root, args) => {
       const { id } = args;
       return User.findById(id);
+    },
+    findUser: async (root, args) => {
+      const { email, password } = args;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error('No user found.');
+      }
+
+      const validPassword = await bcrypt.compare(password, user.password);
+
+      if (!validPassword) {
+        throw new Error('Wrong password.');
+      }
+
+     
+      // try {
+      //   const token = createJsonWebToken(user);
+      //   return token;
+      // } catch (error) {
+      //   throw new Error('Error creating JSON Web Token.');
+      // }
+
+      return user
     },
     allMovies: () => Movie.find().exec(),
   },
@@ -73,6 +99,14 @@ const resolvers = {
       }
 
       await newUser.save()
+   
+      // try {
+      //   const token = createJsonWebToken(user);
+      //   return token;
+      // } catch (error) {
+      //   throw new Error('Error creating JSON Web Token.');
+      // }
+      // return { newUser, token }
       return newUser
     },
     addMovie: async (root, args) => {
@@ -88,6 +122,7 @@ const resolvers = {
       }
 
       const newMovie = new Movie({ ...movie, userId: userId }); 
+
       await newMovie.save();
 
       user.list.push(newMovie._id);
@@ -95,36 +130,14 @@ const resolvers = {
 
       return newMovie.toObject();
     },
-    editMovie: async (root, args) => {
-      const { movieID, newMovie } = args;
-      const movie = await Movie.findOne({ _id: movieID });
-      if (movie) {
-        movie.name = newMovie.name;
-        movie.plot = newMovie.plot;
-        movie.img = newMovie.img;
-        movie.cast = newMovie.cast;
-        await movie.save();
-        return movie;
+    removeMovie: async (root, args) => {
+      const { movieID } = args;
+
+      const deletedMovie = await Movie.findByIdAndDelete(movieID);
+      if (deletedMovie) {
+        return deletedMovie;
       }
       throw new Error('Movie not found.');
-    },
-    login: async (root, args) => {
-      console.log(args)
-      const { email, password } = args;
-      const user = await User.findOne({ email });
-    
-      if (!user) {
-        throw new Error('No user found.');
-      }
-
-      
-      const validPassword = await bcrypt.compare(password, user.password);
-
-      if (!validPassword) {
-        throw new Error('Wrong password.');
-      }
-
-      return user;
     }
   },
   User: {

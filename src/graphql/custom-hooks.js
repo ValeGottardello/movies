@@ -1,77 +1,68 @@
-import { listOfMovies } from './queries'
-import { addUser, login, addMovieQuery } from './mutations'
-import { useLazyQuery, useMutation, gql } from '@apollo/client'
+import { login, userList } from './queries'
+import { addUser, addMovieQuery, removeMovieQuery } from './mutations'
 
-// export const useList = () => {
-//     const results = useLazyQuery(listOfMovies)
-//     return results
-// }
-const query = gql`
-query Query($findUserId: ID!) {
-    findUser(id: $findUserId) {
-        _id
-      list {
-        _id
-        cast
-        img
-        name
-        plot
-      }
-    }
-  }
-`
+import { useLazyQuery, useMutation } from '@apollo/client'
+
+export const useList = () => {
+    const result = useLazyQuery(userList) 
+    return result
+}
 export const useUser = () => {
-    const result = useMutation(addUser)
+    const result = useMutation(addUser) //sign up
     return result
 }
 
 export const useOldUser = () => {
-    const result = useMutation(login)
+    const result = useLazyQuery(login) //login
     return result
 }
 
 export const useAddMovie = (userId) => {
     const [ addMovie ] = useMutation(addMovieQuery)
-        
-    const handleAddMovie = async (movie, userId) => {
+
+    const handleAddMovie = async (movie, userId, movie_id) => {
         try {
+
             const result = await addMovie({
                 variables: {
-                movie: {
-                    cast: movie.actors,
-                    img: movie.poster,
-                    name: movie.title,
-                    plot: movie.plot,
-                },
-                userId: userId,
-                },
-                update: (cache, { data }) => {
-                const existingData = cache.readQuery({
-                    query: query,
-                    variables: { findUserId: userId },
-                });
-
-                const newMovie = data?.addMovie;
-
-                if (existingData && newMovie) {
-                    cache.writeQuery({
-                    query: query,
-                    variables: { findUserId: userId },
-                    data: {
-                        findUser: {
-                        ...existingData.findUser,
-                        list: [...existingData.findUser.list, newMovie],
-                        },
+                    movie: {
+                        cast: movie.actors,
+                        img: movie.poster,
+                        name: movie.title,
+                        plot: movie.plot,
+                        omdbId: movie_id
                     },
-                    });
+                    userId: userId,
                 }
-                },
             })
-
+            if (result.data) {
+                return result.data.addMovie
+            }
         } catch (e) {
         console.error('Error:', e);
         }
     }
     return handleAddMovie
+
+}
+export const useRemoveMovie = () => {
+    const [ removeMovie ] = useMutation(removeMovieQuery)
+    const handleRemoveMovie = async (movie_id) => {
+        try {
+            console.log(movie_id)
+
+            const result = await removeMovie({
+                variables: {
+                    movieId : movie_id
+                }
+            })
+            if (result.data) {
+                return result.data.removeMovie
+            }
+        } catch (e) {
+        console.error('Error:', e);
+        }
+    }
+    return handleRemoveMovie
 
 }

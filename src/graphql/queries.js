@@ -1,22 +1,34 @@
 import { gql } from '@apollo/client';
 
-export const listOfMovies = gql`
-    query findUser($findUserId: ID!) {
-        findUser(id: $findUserId) {
-            list {
-                _id
-                cast
-                img
-                name
-                plot
-            }
-        }
-    } 
-`;
-
-// get({
-//     variables: {
-//         id,
-//     }
-// })
-// const { data, error, loading } = useQuery(listOfMovies)
+export const userList = gql`
+query FindById($findByIdId: ID!) {
+    findById(id: $findByIdId) {
+      list {
+        cast
+        _id
+        img
+        name
+        omdbId
+        plot
+      }
+    }
+}
+`
+export const login = gql`
+query Query($email: String!, $password: String!) {
+    findUser(email: $email, password: $password) {
+      _id
+      email
+      list {
+        cast
+        img
+        _id
+        name
+        omdbId
+        plot
+        userId
+      }
+      name
+    }
+  }
+`

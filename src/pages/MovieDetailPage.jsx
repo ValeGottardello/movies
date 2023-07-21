@@ -12,11 +12,7 @@ export default function MovieDetailPage ({ loading, setLoading, user }) {
     const { movie } = useDetails({ movieId, setLoading })
     const [added, setAdded] = useState({})
 
-    useEffect(() => {
-
-        console.log(user.list)
-    },[user])
-    console.log(user.list)
+    // console.log(movieId, added.omdbId)
     return (
         <div className="flex flex-col justify-center py-4 min-h-[80vh]">
             {loading ? (
@@ -33,9 +29,9 @@ export default function MovieDetailPage ({ loading, setLoading, user }) {
                         <div className="flex flex-col h-max w-[65%] divide-y divide-gray-300/50 ">
                             <div className="justify-between pb-3 flex flex-row">
                                 <StarRating rating={movie.rated}/>
-                                {user && ( user.list.find  
-                                    ? <ModalAddList movie={movie} user={user} onSet={setAdded}/>
-                                    : <ModalRemoveList movie={movie} user={user} onSet={setAdded}/>   
+                                {user && (movieId !== added.omdbId 
+                                ? <ModalAddList movie={movie} user={user} onSet={setAdded} movie_id={movieId}/>
+                                : <ModalRemoveList movie={movie} user={user} onSet={setAdded} movie_id={movieId} added={added}/>   
                                 )}
                             </div>
                             <div className="flex flex-col justify-between gap-3">

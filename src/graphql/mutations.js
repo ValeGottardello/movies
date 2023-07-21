@@ -11,28 +11,13 @@ mutation Mutation($name: String!, $email: String!, $password: String!) {
         name
         plot
         _id
+        omdbId
       }
       name
     }
 }
 `;
 
-export const login = gql`
-mutation Mutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      _id
-      email
-      list {
-        cast
-        img
-        name
-        plot
-        _id
-      }
-      name
-    }
-  }
-`;
 
 export const addMovieQuery = gql`
 mutation AddMovie($movie: MovieInput!, $userId: ID!) {
@@ -42,6 +27,21 @@ mutation AddMovie($movie: MovieInput!, $userId: ID!) {
       img
       name
       plot
+      omdbId
     }
+}
+`;
+
+export const removeMovieQuery = gql`
+mutation Mutation($movieId: ID!) {
+  removeMovie(movieID: $movieId) {
+    _id
+    cast
+    img
+    name
+    omdbId
+    plot
+    userId
+  }
 }
 `;

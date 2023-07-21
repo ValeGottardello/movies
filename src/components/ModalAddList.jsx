@@ -3,18 +3,18 @@ import { Button, Modal } from "react-bootstrap";
 import { BsFillHeartFill } from "react-icons/bs";
 import { useAddMovie } from "../graphql/custom-hooks";
 
-export default function ModalAddList ({ user, movie, onSet }) {
+export default function ModalAddList ({ user, movie, onSet, movie_id }) {
     
     const [show, setShow] = useState(false)
-    const handleAddMovie = useAddMovie()
-
+    const handleAddMovie = useAddMovie(user._id)
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
     const handleAdd = async () => {
         try {
-            await handleAddMovie(movie, user._id)
+            const newMovieAdded = await handleAddMovie(movie, user._id, movie_id)
+            onSet(newMovieAdded)
         } catch (e) {
             console.error('Error:', e);
         } finally {

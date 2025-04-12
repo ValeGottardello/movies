@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo, useCallback } from 'react'
-import { searchMovies } from '../api/movies'
+import { searchMovies } from '../service/movies'
 
 export function useMovies ({ search, sort}) {
 
@@ -10,9 +10,7 @@ export function useMovies ({ search, sort}) {
 
 
     const getMovies = useCallback(async ({ search }) => {
-
         if (search === previousSearch.current) return
-            
         try {
             setLoading(true)
             setError(null)
@@ -26,6 +24,7 @@ export function useMovies ({ search, sort}) {
         }    
     }, [])
 
+    //use memo used to avoid re-render the function again if the their dependencies have NOT changed {sort, movies} 
     const sortedMovies = useMemo(() => {
         return sort 
         ? [...movies].sort((a,b) => a.title.localeCompare(b.title)) 
@@ -39,7 +38,8 @@ export function useMovies ({ search, sort}) {
 
 
     // useMemo is to memorize a calculation, so that it avoids doing it when it is not necessary (when the input is changed), but only when certain information changes (the movies to be rendered, or the sort or the movie) 
-    // useCallback is the same than usememo but just for functions, for ex used here in getMovies. [useCallback use behind the scene: useMemo]
+    // Se usa dentro de un componente funcional, y su propósito es memorizar un valor que resulta de una función costosa, para evitar recalcularlo si las dependencias no cambian.
+// useCallback is the same than usememo but just for functions, for ex used here in getMovies. [useCallback use behind the scene: useMemo]
     // for reasons of performance
     // const sortedMovies = 
     // sort 

@@ -13,7 +13,6 @@ export default function MyList ({ user }) {
         if (user) setListOfMovies(user.list)
     }, [user])
     
-    console.log(listOfMovies.map(movie => movie.plot.split(" ").length))
     return (
         <>
         {user && (

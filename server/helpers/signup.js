@@ -15,7 +15,6 @@ async function createUser(password) {
 
 
 function createJsonWebToken(data) {
-    console.log(data._id)
     const user = {
         _id: data._id.split("(")[1].split(")")[0], 
         name: data.name,

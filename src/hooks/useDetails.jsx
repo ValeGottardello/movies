@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { searchDetails } from "../api/movies"
+import { searchDetails } from "../service/movies"
 
 export default function useDetails ({ movieId, setLoading}) {
 

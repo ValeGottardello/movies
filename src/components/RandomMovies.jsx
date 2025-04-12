@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
-import { getRandomMovieGroups } from '../api/movies';
+import { getRandomMovieGroups } from '../service/movies';
 
 export default function RandomMovies({ movies }) {
     const [randomMovies, setRandomMovies] = useState([])

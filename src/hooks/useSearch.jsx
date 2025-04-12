@@ -6,7 +6,7 @@ export default function useSearch () {
     const [error, setError] = useState(null)
     const isFirstInput = useRef(true)
 
-    useEffect(() => {
+    useEffect(() => { 
         if (isFirstInput.current) {
             // isFirstInput.current = search === ""
             isFirstInput.current = false

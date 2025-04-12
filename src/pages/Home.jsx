@@ -2,17 +2,17 @@ import { Movies } from "../components/RenderMovies";
 import { BiSearchAlt } from "react-icons/bi";
 import { Spinner } from "react-bootstrap";
 import RandomMovies from "../components/RandomMovies";
-export default function Home ({ movies, getMovies, loading, errorMovies, search, updateSearch, error, sort, setSort }) {
+export default function Home ({ movies, debounceGetMovies, loading, errorMovies, search, updateSearch, error, sort, setSort }) {
   
     const handleSubmit = (evt) => {
-      evt.preventDefault()
-      getMovies({ search })
+        evt.preventDefault()
+        debounceGetMovies( { search })
     } 
   
     const handleChange = ({ target }) => {
-      const newSearch = target.value
-      updateSearch(newSearch)
-      getMovies({ search: newSearch })
+        const newSearch = target.value
+        updateSearch(newSearch)
+        debounceGetMovies({ search: newSearch })
     }
   
     const handleSort = () => {

@@ -11,14 +11,16 @@ import useSearch from './hooks/useSearch';
 
 import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-
-
+import { useDebounce } from './hooks/useDebounce';
+  
 function App() {
 
   const [ sort, setSort ] = useState(false)
   const { search, updateSearch, error} = useSearch()
-  const { movies, getMovies, loading, setLoading, errorMovies } = useMovies({ search, sort})
-  const [user, setUser] = useState('')
+  const { movies, getMovies, loading, setLoading, errorMovies } = useMovies({ search, sort })
+  const [ user, setUser  ] = useState('')
+  const { debounceGetMovies } = useDebounce({ getMovies, search }); 
+
 
   return (
     <div className='wrapper flex flex-col min-h-[100vh] bg-slate-800 justify-between' >
@@ -26,22 +28,24 @@ function App() {
       <div className='min-h-[70vh]'>
         <Routes>      
           <Route path="/" element={<Home 
-          movies={movies}
-          getMovies={getMovies}
-          loading={loading}
-          errorMovies={errorMovies}
-          search={search}
-          updateSearch={updateSearch}
-          error={error}
-          sort={sort}
-          setSort={setSort}
+            movies={movies}
+            debounceGetMovies={debounceGetMovies}
+            loading={loading}
+            errorMovies={errorMovies}
+            search={search}
+            updateSearch={updateSearch}
+            error={error}
+            sort={sort}
+            setSort={setSort}
           />} />
-          <Route path="/movies/:movieId" element={<MovieDetailPage 
+          <Route path="/movies/:movieId" 
+            element={<MovieDetailPage   
             loading={loading}
             setLoading={setLoading}
             user={user}
             />} />       
-          <Route path="/movies/list" element={<MyList user={user} />} />       
+          <Route path="/movies/list" 
+            element={<MyList user={user} />} />       
         </Routes>
       </div>
       <Footer/>

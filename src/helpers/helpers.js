@@ -5,7 +5,6 @@ function checkPasswords (query, setMessage) {
     if (password !== confirmPassword || password === "") {
         setMessage({ error: "Passwords doesn't match" })
     } else {
-        console.log(password, confirmPassword)
         setMessage({ success: "Passwords match" })
     }
 }
@@ -23,7 +22,6 @@ async function addMovie(movie, id) {
             userId: user._id
           }
         })
-        console.log(result)
         if (result && result.data && result.data.addUser) {
             // setUser(result.data.addUser);
             

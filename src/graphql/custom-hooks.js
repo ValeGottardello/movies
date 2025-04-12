@@ -49,8 +49,6 @@ export const useRemoveMovie = () => {
     const [ removeMovie ] = useMutation(removeMovieQuery)
     const handleRemoveMovie = async (movie_id) => {
         try {
-            console.log(movie_id)
-
             const result = await removeMovie({
                 variables: {
                     movieId : movie_id

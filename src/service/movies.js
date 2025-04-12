@@ -1,6 +1,6 @@
 export const searchMovies = async ({ search }) => {
     if (search === "") return null
-
+    console.log(search)
     try {
         const response = await fetch(`${process.env.REACT_APP_API}?apikey=${process.env.REACT_APP_API_KEY}&s=${search}`)
         const json = await response.json()

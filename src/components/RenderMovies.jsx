@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import Pages from "./Pagination"
-
+ 
 
 const RenderMovies = ({ movies }) => {
     const [currentPage, setCurrentPage] = useState(1)

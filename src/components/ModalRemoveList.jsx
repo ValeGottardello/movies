@@ -11,7 +11,6 @@ export default function ModalRemoveList ({ user, movie, onSet, movie_id, added }
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-console.log(added)
     const handleRemove = async () => {
         try {
             const removedMovie = await handleRemoveMovie(added._id)
